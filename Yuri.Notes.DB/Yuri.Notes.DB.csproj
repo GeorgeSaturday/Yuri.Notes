@@ -7,8 +7,8 @@
     <ProjectGuid>{3819FCD3-AAD9-4609-890C-2480B72D8A72}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EM.Calc.DB</RootNamespace>
-    <AssemblyName>EM.Calc.DB</AssemblyName>
+    <RootNamespace>Yuri.Notes.DB</RootNamespace>
+    <AssemblyName>Yuri.Notes.DB</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

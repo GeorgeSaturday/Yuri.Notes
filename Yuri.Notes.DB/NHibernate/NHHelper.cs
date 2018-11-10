@@ -12,7 +12,9 @@ namespace Yuri.Notes.DB
 
         static NHibernateHelper()
         {
-            sessionFactory = new Configuration().Configure().BuildSessionFactory();
+  
+                sessionFactory = new Configuration().Configure().BuildSessionFactory();
+  
         }
 
         public static ISession GetCurrentSession()

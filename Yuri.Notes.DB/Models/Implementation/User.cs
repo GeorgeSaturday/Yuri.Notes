@@ -12,10 +12,5 @@ namespace Yuri.Notes.DB
 
     }
 
-    public enum UserStatus
-    {
-        ACTIVE,
-        BLOCKED,
-        DELETED
-    }
+
 }
