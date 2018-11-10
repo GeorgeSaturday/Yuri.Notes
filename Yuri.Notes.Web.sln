@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuri.Notes.Web", "Yuri.Notes.Web\Yuri.Notes.Web.csproj", "{528F667B-23F6-4997-ACBF-40762A93DD3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuri.Notes.DB", "B:\C#\ElonMaskCalc-lesson_6\EM.Calc.ConsoleApp\EM.Calc.DB\Yuri.Notes.DB.csproj", "{3819FCD3-AAD9-4609-890C-2480B72D8A72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuri.Notes.DB", "Yuri.Notes.DB\Yuri.Notes.DB.csproj", "{3819FCD3-AAD9-4609-890C-2480B72D8A72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

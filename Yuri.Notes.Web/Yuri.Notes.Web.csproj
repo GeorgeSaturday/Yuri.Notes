@@ -201,12 +201,6 @@
     <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="B:\C#\ElonMaskCalc-lesson_6\EM.Calc.ConsoleApp\EM.Calc.DB\Yuri.Notes.DB.csproj">
-      <Project>{3819FCD3-AAD9-4609-890C-2480B72D8A72}</Project>
-      <Name>Yuri.Notes.DB</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -218,6 +212,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yuri.Notes.DB\Yuri.Notes.DB.csproj">
+      <Project>{3819FCD3-AAD9-4609-890C-2480B72D8A72}</Project>
+      <Name>Yuri.Notes.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
