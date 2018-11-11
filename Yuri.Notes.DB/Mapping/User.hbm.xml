@@ -8,8 +8,10 @@
       <generator class="native" />
     </id>
 
+   
     <property name="Login" />
     <property name="Password" />
+    <many-to-one name="Role" column="RoleId" lazy="false"/>
 
     
   </class>

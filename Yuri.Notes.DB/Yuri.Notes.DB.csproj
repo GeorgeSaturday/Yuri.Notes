@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Implementation\Note.cs" />
+    <Compile Include="Models\Implementation\Role.cs" />
     <Compile Include="Models\Interfaces\IEntity.cs" />
     <Compile Include="NHibernate\NHHelper.cs" />
     <Compile Include="NHibernate\NHBaseRepository.cs" />
@@ -67,8 +69,6 @@
     <Compile Include="Repository\Interfaces\IEntityRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserRepository.cs" />
     <Compile Include="Models\Implementation\User.cs" />
-    <Compile Include="Repository\Implementation\BaseRepository.cs" />
-    <Compile Include="Repository\Implementation\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -77,6 +77,12 @@
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Mapping\Role.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mapping\Note.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mapping\User.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

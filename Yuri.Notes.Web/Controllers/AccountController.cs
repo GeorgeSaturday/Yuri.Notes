@@ -47,7 +47,7 @@ namespace Yuri.Notes.Web.Controllers
 
             FormsAuthentication.SetAuthCookie(user.Login, false);
 
-            return RedirectToAction("Input", "Calc");
+            return RedirectToAction("Index", "Notes");
         }
 
         public ActionResult Logoff()
