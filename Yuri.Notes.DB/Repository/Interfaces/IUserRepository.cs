@@ -14,5 +14,11 @@
         /// </summary>
         /// <param name="id">Идентификатор</param>
         void Block(long id);
+
+        User LoadByLogin(string login);
+
+        void UserRegistration(string login, string password);
+
+        long FindIdByLogin(string login);
     }
 }

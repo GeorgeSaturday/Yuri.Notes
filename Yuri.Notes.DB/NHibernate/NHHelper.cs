@@ -20,9 +20,8 @@ namespace Yuri.Notes.DB
         public static ISession GetCurrentSession()
         {
             HttpContext context = HttpContext.Current;
-            ISession currentSession = context.Items[CurrentSessionKey] as ISession;
 
-            if (currentSession == null)
+            if (!(context.Items[CurrentSessionKey] is ISession currentSession))
             {
                 currentSession = sessionFactory.OpenSession();
                 context.Items[CurrentSessionKey] = currentSession;
@@ -34,9 +33,8 @@ namespace Yuri.Notes.DB
         public static void CloseSession()
         {
             HttpContext context = HttpContext.Current;
-            ISession currentSession = context.Items[CurrentSessionKey] as ISession;
 
-            if (currentSession == null)
+            if (!(context.Items[CurrentSessionKey] is ISession currentSession))
             {
                 // No current session
                 return;

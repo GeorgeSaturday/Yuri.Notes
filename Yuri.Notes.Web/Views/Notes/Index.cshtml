@@ -1,7 +1,16 @@
-﻿
+﻿@model Yuri.Notes.Web.Models.NotesModel
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Заметки";
 }
 
-<h2>View</h2>
+<h2>Мои Заметки</h2>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.MyNotes, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+
+        @Html.TextAreaFor(model => model.MyNotes, new { @class = "form-control", @rows = 10 })
+        @Html.ValidationMessageFor(model => model.MyNotes, "", new { @class = "text-danger" })
+    </div>
+</div>
 
