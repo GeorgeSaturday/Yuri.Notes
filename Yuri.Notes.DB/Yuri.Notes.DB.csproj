@@ -65,8 +65,10 @@
     <Compile Include="Models\Interfaces\IEntity.cs" />
     <Compile Include="NHibernate\NHHelper.cs" />
     <Compile Include="NHibernate\NHBaseRepository.cs" />
+    <Compile Include="NHibernate\NHNoteRepository.cs" />
     <Compile Include="NHibernate\NHUserRepository.cs" />
     <Compile Include="Repository\Interfaces\IEntityRepository.cs" />
+    <Compile Include="Repository\Interfaces\INoteRepository.cs" />
     <Compile Include="Repository\Interfaces\IUserRepository.cs" />
     <Compile Include="Models\Implementation\User.cs" />
   </ItemGroup>

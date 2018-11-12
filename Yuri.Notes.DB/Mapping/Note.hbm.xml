@@ -13,7 +13,7 @@
     <property name="Draft" />
     <property name="Tags" />
     <property name="Date" />
-    <many-to-one name="Author" column="UserId" lazy="false"/>
+    <many-to-one name="Author" column="Author" lazy="false"/>
     <property name="BinaryFile" />
     
     
