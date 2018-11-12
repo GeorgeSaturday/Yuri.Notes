@@ -1,30 +1,28 @@
 ﻿@model IEnumerable<Yuri.Notes.DB.Note>
 
-<h2>Список всех заметок</h2>
+<h2>Мои заметки</h2>
 
 <p>
-    @Html.ActionLink("Новая заметка", "Index", "Notes")
+    @Html.ActionLink("Новая заметка", "CreateNote", "Notes")
 </p>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @*@Html.DisplayNameFor(model => model.Name)*@
+            @Html.DisplayName("Имя")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Text)
+            @Html.DisplayName("Тэги")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tags)
+            @Html.DisplayName("Опубликовано")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Draft)
+            @Html.DisplayName("Дата/Время")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BinaryFile)
+            @Html.DisplayName("Файл")
         </th>
 
         <th></th>
@@ -34,25 +32,27 @@
     {
     <tr>
         <td>
+            @{
+                var name = item.Name.Length > 30 ? item.Name.Substring(0, 30) + "..." : item.Name;
+            }
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Tags)
         </td>
-        <th>
-            @Html.DisplayFor(modelItem => item.Draft)
-        </th>
+        <td>
+            <input type="checkbox" onclick="" id="@item.Id" checked="@item.Draft" />
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BinaryFile)
+            <img onclick="" src="~/Content/dwnldiсon.png" alt="Button" height="20" width="20" />
+
+            
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Edit", "Notes", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>

@@ -14,6 +14,7 @@ namespace Yuri.Notes.Web.Controllers
         IUserRepository UserRepository;
 
         static long Author { get; set; }
+        static long NoteId { get; set; }
 
         public NotesController()
         {
@@ -38,6 +39,37 @@ namespace Yuri.Notes.Web.Controllers
             var myNotes = NoteRepository.GetMyNotes(Author);
 
             return View(myNotes);
+        }
+
+        //[HttpGet]
+        //public ActionResult EditNote()
+        //{      
+        //    return View();
+        //}
+
+        [HttpGet]
+        public ActionResult CreateNote(Note model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            NoteId = model.Id;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public PartialViewResult SaveNote(Note model)
+        {
+            model.Id = NoteId;
+            model.Author = new User() { Id = Author };
+
+            NoteRepository.Save(model);
+
+            return PartialView();
+
         }
     }
 }

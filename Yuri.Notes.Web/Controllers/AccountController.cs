@@ -33,6 +33,7 @@ namespace Yuri.Notes.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //#весело #курсы
                 ModelState.AddModelError("", "Что-то пошло не так! 😊");
                 return View(model);
             }
