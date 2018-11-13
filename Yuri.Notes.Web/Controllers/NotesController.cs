@@ -102,5 +102,16 @@ namespace Yuri.Notes.Web.Controllers
         //    return PartialView();
         //}
 
+        //[HttpPost]
+        //public PartialViewResult Sort(Note model)
+        //{
+
+        //    Array.Sort(mas);
+        //    Array.Reverse(mas);
+        //    return PartialView();
+        //}
+
+
+
     }
 }
