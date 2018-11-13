@@ -2,16 +2,7 @@
 {
     public class NHUserRepository : NHBaseRepository<User>, IUserRepository
     {
-        public override void Delete(long id)
-        {
-            var user = Load(id);
-
-            if (user != null)
-            {
-                //user.Status = UserStatus.DELETED;
-                Save(user);
-            }
-        }
+ 
 
         public void Block(long id)
         {
@@ -72,8 +63,7 @@
                 .SetString("Password", password)
                 .SetInt32("RoleId", 2)
                 .ExecuteUpdate();
-
-         
+       
 
             NHibernateHelper.CloseSession();
         }

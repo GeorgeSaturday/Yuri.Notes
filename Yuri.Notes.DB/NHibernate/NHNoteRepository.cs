@@ -6,20 +6,15 @@ namespace Yuri.Notes.DB
 {
     public class NHNoteRepository : NHBaseRepository<User>, INoteRepository
     {
-
-
         public IList<Note> GetPublicNotes(long userId)
         {
             var session = NHibernateHelper.GetCurrentSession();
 
             var notes = session.QueryOver<Note>()
-                .And(u => u.Author.Id != userId)
-                .And(u => u.Draft == true)
-                
+                .And(u => u.Draft == true)               
                 .List();
 
             NHibernateHelper.CloseSession();
-
             return notes;
         }
 
@@ -36,6 +31,9 @@ namespace Yuri.Notes.DB
             return notes;
         }
 
+  
+
+        //сохранить заметку
         public void Save(Note entity)
         {
             var session = NHibernateHelper.GetCurrentSession();
@@ -47,11 +45,11 @@ namespace Yuri.Notes.DB
                     .SetInt64("Id", entity.Id)
                     .SetString("Name", entity.Name)
                     .SetString("Text", entity.Text)
-                    .SetBoolean("Draft", false)
-                    .SetString("TagList", entity.Tags)
+                    .SetBoolean("Draft", entity.Draft)
+                    .SetString("Tags", entity.Tags)
                     .SetDateTime("Date", DateTime.Now)
                     .SetInt64("Author", entity.Author.Id)
-                    .SetString("File", entity.BinaryFile)
+                    .SetString("BinaryFile", entity.BinaryFile)
                     .ExecuteUpdate();
             }
             else
@@ -60,13 +58,14 @@ namespace Yuri.Notes.DB
                     " VALUES (:Name, :Text, :Draft, :Tags, :Date, :Author, :BinaryFile)")
                     .SetString("Name", entity.Name)
                     .SetString("Text", entity.Text)
-                    .SetBoolean("Draft", false)
+                    .SetBoolean("Draft", entity.Draft)
                     .SetString("Tags", entity.Tags)
                     .SetDateTime("Date", DateTime.Now)
                     .SetInt64("Author", entity.Author.Id)
                     .SetString("BinaryFile", entity.BinaryFile)
                     .ExecuteUpdate();
             }
+            NHibernateHelper.CloseSession();
         }
 
         Note IEntityRepository<Note>.Create()
@@ -84,8 +83,9 @@ namespace Yuri.Notes.DB
             throw new NotImplementedException();
         }
 
-      
-
-       
+        public void Delete(Note entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

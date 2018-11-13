@@ -30,7 +30,17 @@ namespace Yuri.Notes.Web.Controllers
             return View();
         }
 
+        //получить и показать все публичные заметки
+        public ActionResult PublicNotes()
+        {
+            Author = UserRepository.FindIdByLogin(User.Identity.Name);
 
+            var notesPublic = NoteRepository.GetPublicNotes(Author);
+
+            return View(notesPublic);
+        }
+
+        //получить и показать мои заметки
         [HttpGet]
         public ActionResult SavedNotes()
         {
@@ -41,11 +51,19 @@ namespace Yuri.Notes.Web.Controllers
             return View(myNotes);
         }
 
-        //[HttpGet]
-        //public ActionResult EditNote()
-        //{      
-        //    return View();
-        //}
+        //Вью редактирования
+        [HttpGet]
+        public ActionResult EditNote(Note model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            NoteId = model.Id;
+
+            return View(model);
+        }
 
         [HttpGet]
         public ActionResult CreateNote(Note model)
@@ -60,6 +78,7 @@ namespace Yuri.Notes.Web.Controllers
             return View(model);
         }
 
+        //сохранить заметку
         [HttpPost]
         public PartialViewResult SaveNote(Note model)
         {
@@ -71,5 +90,17 @@ namespace Yuri.Notes.Web.Controllers
             return PartialView();
 
         }
+
+        //[HttpPost]
+        //public PartialViewResult DeleteNote(Note model)
+        //{
+        //    model.Id = NoteId;
+        //    model.Author = new User() { Id = Author };
+
+        //    NoteRepository.DeleteNote(model);
+        //    NoteRepository.Delete
+        //    return PartialView();
+        //}
+
     }
 }

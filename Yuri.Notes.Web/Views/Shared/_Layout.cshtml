@@ -25,7 +25,7 @@
             {
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        
+                        <li>@Html.ActionLink("Все Заметки", "PublicNotes", "Notes")</li>
                         <li><a>@User.Identity.Name</a> </li>
                         <li>@Html.ActionLink("Выйти", "Logoff", "Account")</li>
                     </ul>
