@@ -1,0 +1,63 @@
+﻿@model Yuri.Notes.DB.Note
+
+@using (Html.BeginForm("SaveNote", "Notes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <h2>Новая заметка</h2>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Имя заметки", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Текст", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Text, htmlAttributes: new { @class = "form-control", @rows = 10 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Тег", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Tags, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Загрузите файл", htmlAttributes: new { @class = "control-label col-md-2" })
+            <input type="file" name="upload" />
+        </div>
+
+            <div class="form-group">
+                @Html.Label("Опубликовать", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.Draft, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                    @*<input type="button" value="Сохранить" onclick="SaveNote()" />*@
+                </div>
+            </div>
+        </div>
+        }
+
+
+
+        @*<script>
+    function SaveNote() {
+        $.ajax({
+            url: '@Url.Action("SaveNote", "Notes")',
+            type: 'POST',
+            cache: false,
+            data: $("#CreateNoteForm").serializeArray()
+        });
+    }
+        </script>*@

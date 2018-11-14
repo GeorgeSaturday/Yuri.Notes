@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Yuri.Notes.DB.Note>
+
+<h2>Мои заметки</h2>
+
+<p>
+    @Html.ActionLink("Новая заметка", "CreateNote", "Notes")
+</p>
+<div class="form-group">
+    <table id="rez_tablh">
+
+        <tr>
+            <th class="col-md-10" id="thnaim"><input type="text" placeholder="Найти..."></th>
+        </tr>
+
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<table class="table" id="rez_tab" align="center">
+    <thead>
+        <tr>
+            <td> <b> Имя          </b> </td>
+            <td> <b> Тэги         </b> </td>
+            <td> <b> Опубликовано </b> </td>
+            <td> <b> Дата/Время   </b> </td>
+            <td> <b> Файл         </b> </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="naim">
+                    @{
+                        var cutoffName = item.Name.Length > 30 ? item.Name.Substring(0, 30) + "..." : item.Name;
+                    }
+                    @Html.DisplayFor(modelItem => cutoffName)
+                </td>
+                <td id="naim">
+                    @Html.DisplayFor(modelItem => item.Tags)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Draft)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <img onclick="location.href='@Url.Action("DownloadMyFile", "Notes", new { fileName = item.BinaryFile })'" src="~/Content/dwnldiсon.png" alt="Download" height="20" width="20" />
+                    @*<img onclick="" src="~/Content/dwnldiсon.png" alt="Button" height="20" width="20" />*@
+                    @*<input type="file" name="upload" /><br>*@
+
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "EditNote", new Yuri.Notes.DB.Note() {
+                   Id = item.Id, Text = item.Text, BinaryFile = item.BinaryFile,
+                   Draft = item.Draft, Name = item.Name,  Tags = item.Tags }) |
+                    @Html.ActionLink("Удалить", "EraseNote", new { id = item.Id })
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

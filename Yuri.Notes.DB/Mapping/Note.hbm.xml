@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="Yuri.Notes.DB" assembly="Yuri.Notes.DB">
+
+  <class name="Note" table="[Notes]">
+
+    <id name="Id">
+      <generator class="native" />
+    </id>
+
+    <property name="Name" />
+    <property name="Text" />
+    <property name="Draft" />
+    <property name="Tags" />
+    <property name="Date" />
+    <many-to-one name="Author" column="Author" lazy="false"/>
+    <property name="BinaryFile" />
+    
+    
+
+    
+  </class>
+
+</hibernate-mapping>

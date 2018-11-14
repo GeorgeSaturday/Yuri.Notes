@@ -2,16 +2,7 @@
 {
     public class NHUserRepository : NHBaseRepository<User>, IUserRepository
     {
-        public override void Delete(long id)
-        {
-            var user = Load(id);
-
-            if (user != null)
-            {
-                //user.Status = UserStatus.DELETED;
-                Save(user);
-            }
-        }
+ 
 
         public void Block(long id)
         {
@@ -35,6 +26,46 @@
             NHibernateHelper.CloseSession();
 
             return entity;
+        }
+
+        public long FindIdByLogin(string login)
+        {
+            var session = NHibernateHelper.GetCurrentSession();
+
+            var user = session.QueryOver<User>()
+                .And(u => u.Login == login)
+                .SingleOrDefault();
+
+            NHibernateHelper.CloseSession();
+
+            return user.Id;
+        }
+
+        public User LoadByLogin(string login)
+        {
+            var session = NHibernateHelper.GetCurrentSession();
+
+            var user = session.QueryOver<User>()
+                .And(u => u.Login == login)
+                .SingleOrDefault();
+
+            NHibernateHelper.CloseSession();
+
+            return user;
+        }
+
+        public void UserRegistration(string login, string password)
+        {
+            var session = NHibernateHelper.GetCurrentSession();
+
+            session.CreateSQLQuery("INSERT INTO [User] ([Login], [Password], [RoleId]) VALUES (:Login, :Password, :RoleId)")
+                .SetString("Login", login)
+                .SetString("Password", password)
+                .SetInt32("RoleId", 2)
+                .ExecuteUpdate();
+       
+
+            NHibernateHelper.CloseSession();
         }
     }
 }

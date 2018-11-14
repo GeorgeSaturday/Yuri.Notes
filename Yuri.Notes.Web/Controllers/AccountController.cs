@@ -33,6 +33,7 @@ namespace Yuri.Notes.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //#весело #курсы
                 ModelState.AddModelError("", "Что-то пошло не так! 😊");
                 return View(model);
             }
@@ -47,12 +48,40 @@ namespace Yuri.Notes.Web.Controllers
 
             FormsAuthentication.SetAuthCookie(user.Login, false);
 
-            return RedirectToAction("Input", "Calc");
+            return RedirectToAction("SavedNotes", "Notes");
         }
 
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Registration(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = UserRepository.LoadByLogin(model.Login);
+
+            if (user != null)
+            {
+                ModelState.AddModelError("", "Пользователь с таким логином уже зарегистрирован");
+                return View(model);
+            }
+
+            UserRepository.UserRegistration(model.Login, model.Password);
+
             return RedirectToAction("Login", "Account");
         }
     }
