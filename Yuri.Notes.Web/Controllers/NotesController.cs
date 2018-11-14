@@ -71,7 +71,7 @@ namespace Yuri.Notes.Web.Controllers
 
         //сохранить заметку
         [HttpPost]
-        public ActionResult SaveNote(Note model, HttpPostedFileBase download)
+        public ActionResult SaveNote(Note model, HttpPostedFileBase upload)
         {
             if (!ModelState.IsValid)
             {
@@ -79,12 +79,12 @@ namespace Yuri.Notes.Web.Controllers
                 return RedirectToAction("CreateNote", model);
             }
 
-            if (download != null)
+            if (upload != null)
             {
-                string fileName = System.IO.Path.GetFileName(download.FileName);
+                string fileName = System.IO.Path.GetFileName(upload.FileName);
                 model.BinaryFile = fileName;
 
-                download.SaveAs(Server.MapPath("~/Downloads/" + fileName));
+                upload.SaveAs(Server.MapPath("~/Downloads/" + fileName));
             }
 
             model.Author = new User() { Id = Author };

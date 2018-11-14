@@ -14,7 +14,7 @@
 
     </table>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <table class="table" id="rez_tab" align="center">
     <thead>
         <tr>
@@ -45,7 +45,7 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    <img onclick="location.href='@Url.Action("DownloadMyFile", "Notes", new { nameFile = item.BinaryFile })'" src="~/Content/dwnldiсon.png" alt="Download" height="20" width="20" />
+                    <img onclick="location.href='@Url.Action("DownloadMyFile", "Notes", new { fileName = item.BinaryFile })'" src="~/Content/dwnldiсon.png" alt="Download" height="20" width="20" />
                     @*<img onclick="" src="~/Content/dwnldiсon.png" alt="Button" height="20" width="20" />*@
                     @*<input type="file" name="upload" /><br>*@
 
