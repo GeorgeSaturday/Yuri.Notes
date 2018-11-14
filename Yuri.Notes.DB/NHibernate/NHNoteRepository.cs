@@ -4,8 +4,20 @@ using Yuri.Notes.DB;
 
 namespace Yuri.Notes.DB
 {
-    public class NHNoteRepository : NHBaseRepository<User>, INoteRepository
+    public class NHNoteRepository : NHBaseRepository<Note>, INoteRepository
     {
+        IUserRepository UserRepository;
+
+        public NHNoteRepository()
+        {
+            UserRepository = new NHUserRepository();
+        }
+
+        /// <summary>
+        /// Получить все заметки
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IList<Note> GetPublicNotes(long userId)
         {
             var session = NHibernateHelper.GetCurrentSession();
@@ -18,6 +30,11 @@ namespace Yuri.Notes.DB
             return notes;
         }
 
+        /// <summary>
+        /// получить только мои заметки
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IList<Note> GetMyNotes(long userId)
         {
             var session = NHibernateHelper.GetCurrentSession();
@@ -30,41 +47,31 @@ namespace Yuri.Notes.DB
 
             return notes;
         }
+       
 
-  
-
-        //сохранить заметку
-        public void Save(Note entity)
+        /// <summary>
+        /// Сохранить сессию
+        /// </summary>
+        /// <param name="entity"></param>
+        public override void Save(Note entity)
         {
             var session = NHibernateHelper.GetCurrentSession();
 
-            if (entity.Id > 0)
+            using (session.BeginTransaction())
             {
-                session.CreateSQLQuery("UPDATE [Notes] SET [Name] = :Name, [Text] = :Text, [Draft] = :Draft, " +
-                    "[Tags] = :Tags, [Date] = :Date, [Author] = :Author, [BinaryFile] = :BinaryFile WHERE [Id] = :Id")
-                    .SetInt64("Id", entity.Id)
-                    .SetString("Name", entity.Name)
-                    .SetString("Text", entity.Text)
-                    .SetBoolean("Draft", entity.Draft)
-                    .SetString("Tags", entity.Tags)
-                    .SetDateTime("Date", DateTime.Now)
-                    .SetInt64("Author", entity.Author.Id)
-                    .SetString("BinaryFile", entity.BinaryFile)
-                    .ExecuteUpdate();
+                var author = UserRepository.Load(entity.Author.Id);
+
+                entity.Author = author;
+                entity.Date = DateTime.Now;
+
+                if (entity != null)
+                {
+                    session.SaveOrUpdate(entity);
+                }
+
+                session.Flush();
             }
-            else
-            {
-                session.CreateSQLQuery("INSERT INTO [Notes] ([Name], [Text], [Draft], [Tags], [Date], [Author], [BinaryFile])" +
-                    " VALUES (:Name, :Text, :Draft, :Tags, :Date, :Author, :BinaryFile)")
-                    .SetString("Name", entity.Name)
-                    .SetString("Text", entity.Text)
-                    .SetBoolean("Draft", entity.Draft)
-                    .SetString("Tags", entity.Tags)
-                    .SetDateTime("Date", DateTime.Now)
-                    .SetInt64("Author", entity.Author.Id)
-                    .SetString("BinaryFile", entity.BinaryFile)
-                    .ExecuteUpdate();
-            }
+
             NHibernateHelper.CloseSession();
         }
 
@@ -83,9 +90,43 @@ namespace Yuri.Notes.DB
             throw new NotImplementedException();
         }
 
-        public void Delete(Note entity)
+
+        public Note ReceiveNoteId(long Id)
         {
-            throw new NotImplementedException();
+            var session = NHibernateHelper.GetCurrentSession();
+
+            using (session.BeginTransaction())
+            {
+                using (session.BeginTransaction())
+                {
+                    var note = session.QueryOver<Note>()
+                        .And(u => u.Id == Id)
+                        .SingleOrDefault();
+
+                    return note;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Удалить заметку
+        /// </summary>
+        /// <param name="id"></param>
+        public override void Delete(long id)
+        {
+            var session = NHibernateHelper.GetCurrentSession();
+
+            using (session.BeginTransaction())
+            {
+                var entity = ReceiveNoteId(id);
+
+                if (entity != null)
+                {
+                    session.Delete(entity);
+                }
+
+                session.Flush();
+            }
         }
     }
 }

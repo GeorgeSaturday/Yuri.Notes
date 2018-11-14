@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Yuri.Notes.DB
 {
@@ -6,6 +7,7 @@ namespace Yuri.Notes.DB
     {
         public virtual long Id { get; set; }
 
+        [Required(ErrorMessage ="Введите название заметки")]
         public virtual string Name { get; set; }
 
         public virtual string Text { get; set; }

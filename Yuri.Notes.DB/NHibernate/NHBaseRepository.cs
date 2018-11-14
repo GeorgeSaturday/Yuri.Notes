@@ -11,7 +11,7 @@ namespace Yuri.Notes.DB
             return Activator.CreateInstance<T>();
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(long id)
         {
             var session = NHibernateHelper.GetCurrentSession();
 
@@ -19,7 +19,7 @@ namespace Yuri.Notes.DB
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    
+                    var entity = Load(id);
                     if (entity != null)
                     {
                         session.Delete(entity);
@@ -33,10 +33,6 @@ namespace Yuri.Notes.DB
             }
         }
 
-        //public void Delete(T entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public virtual IEnumerable<T> GetAll()
         {
@@ -53,11 +49,14 @@ namespace Yuri.Notes.DB
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
-            var user = session.Load<T>(id);
+            using (var tx = session.BeginTransaction())
+            {
+                var user = session.Load<T>(id);
 
-            NHibernateHelper.CloseSession();
+                tx.Commit();
 
-            return user;
+                return user;
+            }
         }
 
         public virtual void Save(T entity)

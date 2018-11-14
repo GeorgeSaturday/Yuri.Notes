@@ -1,12 +1,11 @@
 ﻿@model Yuri.Notes.DB.Note
 
-@using (Html.BeginForm("CreateNote", "Notes", FormMethod.Post, new { id = "EditNoteForm" }))
+@using (Html.BeginForm("SaveNote", "Notes", FormMethod.Post, new { id = "EditNoteForm" }))
 {
 
     <h2>Редактировать</h2>
 
     <div class="form-horizontal">
-
 
         <div class="form-group">
             @Html.Label("Текст", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -32,19 +31,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Сохранить" onclick="SaveNote()" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<script>
-function SaveNote() {
-    $.ajax({
-        url: '@Url.Action("SaveNote", "Notes")',
-        type: 'POST',
-        cache: false,
-        data: $("#EditNoteForm").serializeArray()
-    });
-}
-</script>

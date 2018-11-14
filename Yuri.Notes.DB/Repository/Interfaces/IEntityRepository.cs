@@ -10,7 +10,7 @@ namespace Yuri.Notes.DB
 
         void Save(T entity);
 
-        void Delete(T entity);
+        void Delete(long id);
 
         IEnumerable<T> GetAll();
     }

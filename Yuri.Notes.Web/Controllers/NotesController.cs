@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using Yuri.Notes.DB;
 
 namespace Yuri.Notes.Web.Controllers
 {
+    // GET: Notes
+    [Authorize(Roles = "admin, user")]
     public class NotesController : Controller
     {
 
@@ -22,13 +25,6 @@ namespace Yuri.Notes.Web.Controllers
             UserRepository = new NHUserRepository();
         }
 
-
-        // GET: Notes
-        [Authorize(Roles = "admin, user")]
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         //получить и показать все публичные заметки
         public ActionResult PublicNotes()
@@ -51,7 +47,7 @@ namespace Yuri.Notes.Web.Controllers
             return View(myNotes);
         }
 
-        //Вью редактирования
+        //View редактирования заметки
         [HttpGet]
         public ActionResult EditNote(Note model)
         {
@@ -65,52 +61,60 @@ namespace Yuri.Notes.Web.Controllers
             return View(model);
         }
 
+        //View создания заметки
         [HttpGet]
-        public ActionResult CreateNote(Note model)
+        public ActionResult CreateNote()
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            NoteId = model.Id;
-
-            return View(model);
+           
+            return View();
         }
 
         //сохранить заметку
         [HttpPost]
-        public PartialViewResult SaveNote(Note model)
+        public ActionResult SaveNote(Note model, HttpPostedFileBase download)
         {
-            model.Id = NoteId;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("а", "Введите название заметки");
+                return RedirectToAction("CreateNote", model);
+            }
+
+            if (download != null)
+            {
+                string fileName = System.IO.Path.GetFileName(download.FileName);
+                model.BinaryFile = fileName;
+
+                download.SaveAs(Server.MapPath("~/Downloads/" + fileName));
+            }
+
             model.Author = new User() { Id = Author };
 
             NoteRepository.Save(model);
 
-            return PartialView();
+            return RedirectToAction("SavedNotes", "Notes");
+            //return PartialView();
 
         }
 
-        //[HttpPost]
-        //public PartialViewResult DeleteNote(Note model)
-        //{
-        //    model.Id = NoteId;
-        //    model.Author = new User() { Id = Author };
+        public ActionResult DownloadMyFile(string fileName)
+        {
+            if (fileName != null)
+            {
+                string file_path = Server.MapPath("~/Downloads/" + fileName);
+                return File(file_path, MediaTypeNames.Application.Octet, fileName);
+            }
 
-        //    NoteRepository.DeleteNote(model);
-        //    NoteRepository.Delete
-        //    return PartialView();
-        //}
+            return RedirectToAction("SavedNotes");
+        }
 
-        //[HttpPost]
-        //public PartialViewResult Sort(Note model)
-        //{
+        //уничтожить заметку
+        public ActionResult EraseNote(long id)
+        {
+            NoteRepository.Delete(id);
 
-        //    Array.Sort(mas);
-        //    Array.Reverse(mas);
-        //    return PartialView();
-        //}
+            return RedirectToAction("SavedNotes");
 
+        }
 
 
     }
